@@ -19,7 +19,9 @@ Mcode = { 'A': '.-', 'B': '-...', 'C': '-.-.',
         '-': '-....-', '_': '..--.-', '"': '.-..-.',
         '(': '-.--.', ')': '-.--.-', '$': '...-..-',
         '&': '.-...', '@': '.--.-.', '+': '.-.-.', 
-        ' ': '  ' }
+        ' ': '' }
+
+text = {v: k for k, v in Mcode.iteritems()}
 
 Ccode = { '.-': '1A', '-...': 'A3', '-.-.': 'A1A1',
         '-..': 'A2', '.': '1', '..-.': '2A1',
@@ -42,46 +44,81 @@ Ccode = { '.-': '1A', '-...': 'A3', '-.-.': 'A1A1',
         '-....-': 'A4A', '..--.-': '2B1A', '.-..-.': '1A2A1',
         '-.--.': 'A1B1', '-.--.-': 'A1B1A', '...-..-': '3A2A',
         '.-...': '1A3', '.--.-.': '1B1A1', '.-.-.': '1A1A1', 
-        ' ': '  ', '  ': '  ' }
+        ' ': '', '  ': ' ' }
+
+Dcode = {v: k for k, v in Ccode.iteritems()}
+
 
 def morse():
     msg = raw_input('MESSAGE: ')
+    
     if not msg:
         print "You need to enter a message!"
+        msg
 
-    for char in msg:
-	    print Mcode[char.upper()],
+    nmsg = msg.split(' ')
+
+    print "\nOptions:"
+    print "1. Text to Morse Code"
+    print "2. Morse Code to text"
+    choice = raw_input(">> ")
+
+    if choice == "1":
+        for char in msg:
+            print Mcode[char.upper()],
+
+    elif choice == "2":
+        for char in nmsg:
+            if char in text:
+                print text[char],
+            else:
+                print "<CNF>"
+
 
 def cipher():
     msg = raw_input('MESSAGE: ')
+    
     if not msg:
         print "You need to enter a message!"
+        msg
 
-    for char in msg:
-	    print Ccode[Mcode[char.upper()]],
+    nmsg = msg.split(' ')
 
+    print "\nOptions:"
+    print "1. Text to Cipher"
+    print "2. Cipher to text"
+    choice = raw_input(">> ")
+
+    if choice == "1":
+        for char in msg:
+	        print Ccode[Mcode[char.upper()]],
+
+
+
+    elif choice == "2":
+        for char in nmsg:
+            if char in Dcode:
+	            mor = Dcode[char],
+            else:
+                print "<CNF>"
+        
+            for char in mor:
+                if char in text:
+                    print text[char],
 
 
 def main():
     while True:
-        print "\nOptions: "
-        print "1. Morse code"
-        print "2. Custom cipher"
-        print "3. exit"
+        print "\nOptions:"
+        print "1. Morse Code"
+        print "2. Cipher"
+
         choice = raw_input(">> ")
-        if not choice:
-            print "You need to enter and option!"
-        
+
         if choice == "1":
             morse()
         elif choice == "2":
             cipher()
-        elif choice == "3":
-            break
-        else:
-            print "That is not a valid option!"
-
-
 
 
 
